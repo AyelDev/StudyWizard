@@ -5,47 +5,44 @@
              NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
 
-        <StackLayout VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand">
+        <StackLayout BackgroundColor="#2D3250">
             <!--Login Page-->
 
 
-
-            <Grid BackgroundColor="Green" Margin="10,0,10,30">
+            <Image Source="logo" HeightRequest="250" Margin="0,30,0,-30"/>
+            <Grid Margin="0,0,10,30">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="1"/>
                     <RowDefinition Height="70"/>
-                    <RowDefinition Height="50"/>
-                    <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
 
-                <Label Grid.Row="0" Grid.Column="1" Text="Logo" BackgroundColor="AntiqueWhite"/>
-                <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Text="Study Wizard (Quiz App)" BackgroundColor="AntiqueWhite" FontSize="30" VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" TextColor="Black"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="2" Grid.Column="0" Text="Email" BackgroundColor="AntiqueWhite" FontSize="20" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"/>
+                <!--<Label Grid.Row="0" Grid.Column="1" Text="Logo" BackgroundColor="AntiqueWhite-->
+
+                <Label Grid.Row="1" Grid.Column="0" Text="Email:" FontSize="20" TextColor="Gray" HorizontalOptions="End" VerticalOptions="Center"/>
                 <!--<Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="Email Entry" BackgroundColor="AntiqueWhite"/>-->
-                <Entry Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="sample@gmail.com" BackgroundColor="AntiqueWhite"/>
+                <Entry Grid.Row="1" Grid.Column="1" TextColor="White" Placeholder="sample@gmail.com" PlaceholderColor="White" x:Name="UserEmail"/>
 
-                <Label Grid.Row="3" Grid.Column="0" Text="Password" BackgroundColor="AntiqueWhite" FontSize="20" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"/>
+                <Label Grid.Row="2" Grid.Column="0" Text="Password:" FontSize="20" TextColor="Gray" HorizontalOptions="End" VerticalOptions="Center"/>
                 <!--<Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="Email Entry" BackgroundColor="AntiqueWhite"/>-->
-                <Entry Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="***********" BackgroundColor="AntiqueWhite"/>
+                <Entry Grid.Row="2" Grid.Column="1" Placeholder="***********" PlaceholderColor="White" x:Name="UserPassword"/>
             </Grid>
 
-            <Grid BackgroundColor="red" ColumnSpacing="20" RowSpacing="15" Margin="10,0,10,0">
+            <Grid ColumnSpacing="20" RowSpacing="15" Margin="10,0,10,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
                     <RowDefinition Height="40"/>
-                    
                 </Grid.RowDefinitions>
-                
+
                 <!--<Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" Text="Sign In" BackgroundColor="AntiqueWhite"/>-->
-                <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" Text="Sign In" BackgroundColor="LightBlue"/>
+                <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" Text="Sign In" BackgroundColor="Aquamarine" CharacterSpacing="4" CornerRadius="15" Clicked="ButtonUserDashboard_Clicked"/>
 
                 <!--<Label Grid.Row="0" Grid.Column="1" Text="Sign Up" BackgroundColor="AntiqueWhite"/>-->
-                <Button Grid.Row="0" Grid.Column="1" Text="Sign Up" BackgroundColor="LightBlue"/>
-                
-                <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="Forgot Password" BackgroundColor="LightPink"/>
+                <Button Grid.Row="0" Grid.Column="1" Text="Sign Up" BackgroundColor="#2791d8" CharacterSpacing="4" CornerRadius="15" Clicked="ButtonUserSignUp_Clicked"/>
+                <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="Forgot Password" BackgroundColor="#3F51B5" CharacterSpacing="4" CornerRadius="15" Clicked="ButtonUserForgotPassword_Clicked"/>
 
             </Grid>
 
@@ -53,7 +50,7 @@
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />-->
 
-            <Label Text="this is for the footer" TextColor="Gray" FontSize="Small" Margin="10,0,10,0"/>
+            <Label Text="e.g. Copyright © 2024 Study Wizard Inc. All rights reserved." TextColor="Gray" FontSize="Small" Margin="10,0,10,0" VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand"/>
         </StackLayout>
 
     </ContentPage.Content>
