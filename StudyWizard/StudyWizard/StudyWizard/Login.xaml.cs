@@ -4,85 +4,202 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Acr.UserDialogs;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-
+using Firebase.Auth;
+using Plugin.SimpleAudioPlayer;
 namespace StudyWizard
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Login : ContentPage
     {
+        
+        //user repository
+        UserRepository _userRepository = new UserRepository();
+        
         public Login()
         {
+      
             InitializeComponent();
+            LblForgotPassword();
+           
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
+
+
+            //current state of connectivity
+            var current = Connectivity.NetworkAccess;
+
+            if (current == NetworkAccess.Internet)
+            {
+                NoNetPage.IsVisible = false;
+                LoginPage.IsVisible = true;
+                // Connection to internet is available
+            }
+            else
+            {
+                NoNetPage.IsVisible = true;
+                LoginPage.IsVisible = false;
+            }
+
+        }
+
+        private async void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        {
+            if(e.NetworkAccess != NetworkAccess.Internet)
+            {
+                await DisplayAlert("Network Lost", "Please connect your internet and try again", "ok");
+                NoNetPage.IsVisible = true;
+                LoginPage.IsVisible = false;
+                 //   NetWorkPageVisible.IsVisible = false;
+                 // NoNetWorkPageVisible.IsVisible = true;
+
+            }
+            else
+            {
+                NoNetPage.IsVisible = false;
+                LoginPage.IsVisible = true;
+                /* await NetWorkPageVisible.FadeTo(1).ContinueWith((result) => {
+                   
+                });*/
+
+                // NoNetWorkPageVisible.IsVisible = false;
+                //NetWorkPageVisible.IsVisible = true;
+            }
+            
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
+        }
+
+     
+
 
         private async void ButtonUserSignUp_Clicked(object sender, EventArgs e)
-        {
-           
+        {  
             //Loader for nagivating the UserSignUp page span of .5 seconds
             UserDialogs.Instance.ShowLoading("Loading Please Wait...");
-            await Navigation.PushAsync(new Views.User.UserSignUp());
+            await Navigation.PushModalAsync(new Views.User.UserSignUp());
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             System.Threading.Thread.Sleep(500);
             stopwatch.Stop();
             UserDialogs.Instance.HideLoading();
+
         }
 
-        private async void ButtonUserForgotPassword_Clicked(object sender, EventArgs e)
-        {
-            //Loader for nagivating the UserForgotPassword page span of .5 seconds
-            UserDialogs.Instance.ShowLoading("Loading Please Wait...");
-            await Navigation.PushAsync(new Views.User.UserForgotPassword());
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-            System.Threading.Thread.Sleep(500);
-            stopwatch.Stop();
-            UserDialogs.Instance.HideLoading();
+        public void LblForgotPassword()
+        { 
+          LabelUserForgotPassword_Tap.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async()=>
+                {
+                    //Loader for nagivating the UserForgotPassword page span of .5 seconds
+                    UserDialogs.Instance.ShowLoading("Loading Please Wait...");
+                    await Navigation.PushModalAsync(new Views.User.UserForgotPassword());
+                    Stopwatch stopwatch = new Stopwatch();
+                    stopwatch.Start();
+                    System.Threading.Thread.Sleep(500);
+                    stopwatch.Stop();
+                    UserDialogs.Instance.HideLoading();
+                  
+                    
+                })
+            }
+                );
+        }
+
        
-        }
-
-        private async void ButtonUserDashboard_Clicked(object sender, EventArgs e)
+        private async void ButtonUserSignIn_Clicked(object sender, EventArgs e)
         {
-
+        
             try
             {
 
+
+                UserDialogs.Instance.ShowLoading("Loading Please Wait...");
                 string userRawEmail = UserEmail.Text.ToLower();
                 string userRawPass = UserPassword.Text.ToLower();
 
                 string userEmail = string.Concat(userRawEmail.Where(c => !char.IsWhiteSpace(c)));
                 string userPass = string.Concat(userRawPass.Where(c => !char.IsWhiteSpace(c)));
-                Console.WriteLine(userEmail + " " + userPass);
-                if (userEmail == "user" && userPass == "123")
+              
+                if (string.IsNullOrEmpty(userEmail) || string.IsNullOrEmpty(userPass))
                 {
-                    await Navigation.PushAsync(new Views.User.UserDashboard());
+
+                    await DisplayAlert("Form Incomplete", "Please Enter the Password or Email Correctly.", "ok");
+
+
                 }
                 else
                 {
-                    await DisplayAlert("Incorrect Username or Password", "Please type it correctly", "ok");
+                    await _userRepository.SignIn(userEmail, userPass);
+                    var userDashboard = new Views.User.UserDashboard();
+                    await Navigation.PushAsync(userDashboard);
+                    Debug.WriteLine("Signing in user dashboard...");
+                    //await Navigation.PushModalAsync(new Views.User.UserDashboard());
+                    Stopwatch stopwatch = new Stopwatch();
+                   
 
+
+
+               
                 }
-                //partial codes
+                   
+          
 
             }
-            catch (NullReferenceException error)
+            catch (Exception err)
             {
-                await DisplayAlert("Empty Username or Password", "Please type it correctly", "ok");
-                //await DisplayAlert("Opps somethings wrong" ,$"An error occurred: {error.Message}, {error.StackTrace}", "Ok");
-                Console.WriteLine($"An error occurred: {error.Message}");
-                Console.WriteLine($"Stack trace: {error.StackTrace}");
+                string errors = err.ToString().ToLower();
+                
+                if (errors.Contains("invalid_login_credentials"))
+                {
+                    await DisplayAlert("Invalid Login Credentials", "Please Enter the Password or Email Correctly", "ok");
+                }
+                else if(errors.Contains("object reference"))
+                {
+                     await DisplayAlert("Form Incomplete", "Please Enter the Password or Email Correctly.", "ok");
+                }
+                else if (errors.Contains("invalid_email"))
+                {
+                    await DisplayAlert("Invalid Email", "Please Enter Your Email Correctly.", "ok");
+                }
+                else if (errors.Contains("too_many_attempts_try_later"))
+                {
+                    await DisplayAlert("Too Many Login Attempts", "Access To This Account Has Been Temporarily Disabled Due To Many Failed Login Attempts. You Can Immediately Restore It " +
+                        "By Resetting Your Password Or You Can Try Again Later", "ok");
+                }
+                else
+                {
+                    await DisplayAlert("Oh No, Something Is Off.", $"An error occurred: {err.Message}, {err.StackTrace}", "ok");
+                }
+                 //await DisplayAlert("Incomplete Filling up", "Please fill the Email or Password correctly", "ok");
+           
+                //Console.WriteLine($"An error occurred: {error.Message}");
+                //Console.WriteLine($"Stack trace: {error.StackTrace}");
+                
             }
-            catch(ArgumentNullException error)
+            /*catch(Exception err)
             {
-                Console.WriteLine($"An error occurred: {error.Message}");
-                Console.WriteLine($"Stack trace: {error.StackTrace}");
-            }
+                await DisplayAlert("Incorrect Email or Password", "Please type it correctly", "ok");
+                UserEmail.Text = string.Empty;
+                UserPassword.Text = string.Empty;
+                //await DisplayAlert("Opps somethings wrong", $"An error occurred: {error.Message}, {error.Data}", "Ok");
+              
+                
+            }*/
+            UserDialogs.Instance.HideLoading();
 
-            
         }
         
     }

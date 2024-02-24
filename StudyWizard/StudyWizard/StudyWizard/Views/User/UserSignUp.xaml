@@ -1,12 +1,117 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:StudyWizard"
              x:Class="StudyWizard.Views.User.UserSignUp" NavigationPage.HasNavigationBar="False">
-    <ContentPage.Content>
-        <StackLayout BackgroundColor="#2D3250">
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+    <ContentPage.Content BackgroundColor="#2D3250">
+        <StackLayout BackgroundColor="#EFECEC">
+
+            <Grid  VerticalOptions="CenterAndExpand"
+                HorizontalOptions="CenterAndExpand" Margin="20,0,20,0" RowSpacing="20">
+                <Label 
+                    Grid.Column="0" 
+                    Grid.Row="0" 
+                    Text="Sign Up" 
+                    TextColor="#535C91" 
+                    FontSize="30" 
+                    HorizontalTextAlignment="Center"/>
+                
+                <Entry 
+                    x:Name="lblName" 
+                    Grid.Column="0" 
+                    Grid.Row="1" 
+                    Placeholder="Name" 
+                    PlaceholderColor="LightGray" 
+                    TextColor="#535C91"/>
+                
+                <Entry 
+                       x:Name="lblEmail" 
+                       Grid.Column="0" 
+                       Grid.Row="2" 
+                       Placeholder="Email" 
+                       PlaceholderColor="LightGray" 
+                       TextColor="#535C91"/>
+                
+                <Entry 
+                    x:Name="lblPass" 
+                    Grid.Column="0" 
+                    Grid.Row="3" 
+                    Placeholder="Password" 
+                    IsPassword="True" 
+                    PlaceholderColor="LightGray" 
+                    TextColor="#535C91"/>
+                
+                <Entry 
+                    x:Name="lblConfrmPass" 
+                    Grid.Column="0" 
+                    Grid.Row="4" 
+                    Placeholder="Confirm Password" 
+                    IsPassword="{Binding Source={x:Reference ShowPasswordActualTrigger}, Path=HidePassword}" 
+                    PlaceholderColor="LightGray" 
+                    TextColor="#535C91"/>
+
+                <!--Show/HIde Password-->
+                <ImageButton VerticalOptions="Center" Grid.Row="4" Grid.Column="0"
+               HeightRequest="26"
+               HorizontalOptions="End"
+               Source="ic_eye_hide">
+                    <ImageButton.Triggers>
+                        <EventTrigger Event="Clicked">
+                            <local:MyCustomTriggerAction ShowIcon="ic_eye"
+                                                              HideIcon="ic_eye_hide"
+                                                              x:Name="ShowPasswordActualTrigger"/>
+                        </EventTrigger>
+                    </ImageButton.Triggers>
+                </ImageButton>
+                
+            </Grid>
+
+            <Grid ColumnSpacing="20" RowSpacing="15" Margin="10,0,10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+            </Grid>
+            <Grid Margin="20,-10,0,150">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"></ColumnDefinition>
+                    <ColumnDefinition Width="300"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <CheckBox 
+                    CheckedChanged="CheckBox_CheckedChanged" 
+                    x:Name="checkBx" 
+                    Grid.Column="0" 
+                    Grid.Row="0"/>
+                
+                <Label 
+                    Grid.Column="1" 
+                    Grid.Row="0" 
+                    TextColor="#535C91" 
+                    Text="I Accept Terms And Conditions" 
+                    VerticalTextAlignment="Center" 
+                    FontSize="16"/>
+              
+            </Grid>
+            <Grid Margin="20,-130,20,120">
+                <Button 
+                    Grid.Column="0" 
+                    Clicked="ButtonSignUp_Clicked" 
+                    Text="Sign Up" 
+                    CornerRadius="20" 
+                    Background="#9290C3"
+                    TextColor="#EFECEC"/>
+                
+                <Button 
+                    Grid.Column="1" 
+                    Clicked="ButtonLogin_Clicked" 
+                    Text="Sign In" 
+                    CornerRadius="20" 
+                    BorderWidth="2" 
+                    BorderColor="#9290C3" 
+                    BackgroundColor="#EFECEC" 
+                    TextColor="#9290C3"/>
+            </Grid>
+            
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -1,57 +1,158 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:StudyWizard"
              x:Class="StudyWizard.Login"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#EFECEC">
     <ContentPage.Content>
 
-        <StackLayout BackgroundColor="#2D3250">
-            <!--Login Page-->
+        
+        <Grid>
+            <StackLayout x:Name="LoginPage" IsVisible="true" Margin="0,60,0,0">
+                <!--Login Page-->
+                <!--- EFECEC for white-->
+                <!-- https://colorhunt.co/palette/070f2b1b1a55535c919290c3-->
+                <Image Source="logo" HeightRequest="250" Margin="0,30,0,-30"/>
 
 
-            <Image Source="logo" HeightRequest="250" Margin="0,30,0,-30"/>
-            <Grid Margin="0,0,10,30">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="70"/>
-                </Grid.RowDefinitions>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
-                </Grid.ColumnDefinitions>
 
-                <!--<Label Grid.Row="0" Grid.Column="1" Text="Logo" BackgroundColor="AntiqueWhite-->
+                <Grid Margin="10,0,10,30">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
 
-                <Label Grid.Row="1" Grid.Column="0" Text="Email:" FontSize="20" TextColor="Gray" HorizontalOptions="End" VerticalOptions="Center"/>
-                <!--<Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="Email Entry" BackgroundColor="AntiqueWhite"/>-->
-                <Entry Grid.Row="1" Grid.Column="1" TextColor="White" Placeholder="sample@gmail.com" PlaceholderColor="White" x:Name="UserEmail"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                    </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="2" Grid.Column="0" Text="Password:" FontSize="20" TextColor="Gray" HorizontalOptions="End" VerticalOptions="Center"/>
-                <!--<Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="Email Entry" BackgroundColor="AntiqueWhite"/>-->
-                <Entry Grid.Row="2" Grid.Column="1" Placeholder="***********" PlaceholderColor="White" x:Name="UserPassword"/>
-            </Grid>
+                    <!--<Label Grid.Row="0" Grid.Column="1" Text="Logo" BackgroundColor="AntiqueWhite-->
 
-            <Grid ColumnSpacing="20" RowSpacing="15" Margin="10,0,10,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition Height="40"/>
-                </Grid.RowDefinitions>
+                    <Label 
+                    Grid.Row="1" 
+                    Grid.Column="0" 
+                    Text="Email:" 
+                    FontSize="17" 
+                    TextColor="#535C91" 
+                    HorizontalOptions="End" 
+                    VerticalOptions="Center"/>
 
-                <!--<Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" Text="Sign In" BackgroundColor="AntiqueWhite"/>-->
-                <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" Text="Sign In" BackgroundColor="Aquamarine" CharacterSpacing="4" CornerRadius="15" Clicked="ButtonUserDashboard_Clicked"/>
+                    <!--<Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="Email Entry" BackgroundColor="AntiqueWhite"/>-->
+                    <Entry 
+                    Grid.Row="1" 
+                    Grid.Column="1" 
+                    TextColor="#535C91" 
+                    Placeholder="sample@email.com" 
+                    PlaceholderColor="LightGray" 
+                    x:Name="UserEmail"
+                    />
 
-                <!--<Label Grid.Row="0" Grid.Column="1" Text="Sign Up" BackgroundColor="AntiqueWhite"/>-->
-                <Button Grid.Row="0" Grid.Column="1" Text="Sign Up" BackgroundColor="#2791d8" CharacterSpacing="4" CornerRadius="15" Clicked="ButtonUserSignUp_Clicked"/>
-                <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="Forgot Password" BackgroundColor="#3F51B5" CharacterSpacing="4" CornerRadius="15" Clicked="ButtonUserForgotPassword_Clicked"/>
+                    <Label Grid.Row="2" 
+                       Grid.Column="0" 
+                       Text="Password:" 
+                       FontSize="17" 
+                       TextColor="#535C91"
+                       HorizontalOptions="End" 
+                       VerticalOptions="Center"/>
 
-            </Grid>
+                    <!--<Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="Email Entry" BackgroundColor="AntiqueWhite"/>-->
 
-            <!--<Label Text="Welcome to Xamarin.Forms!"
+                    <Entry 
+                    Grid.Row="2" 
+                    Grid.Column="1" 
+                    TextColor="#535C91" 
+                    IsPassword="{Binding Source={x:Reference ShowPasswordActualTrigger}, Path=HidePassword}"
+                    Placeholder="sample123" 
+                    PlaceholderColor="LightGray" 
+                    
+                    x:Name="UserPassword"/>
+
+
+                    <!--Show/HIde Password-->
+                    <ImageButton VerticalOptions="Center" Grid.Row="2" Grid.Column="1"
+               HeightRequest="26"
+               HorizontalOptions="End"
+               Source="ic_eye_hide">
+                        <ImageButton.Triggers>
+                            <EventTrigger Event="Clicked">
+                                <local:MyCustomTriggerAction ShowIcon="ic_eye"
+                                                              HideIcon="ic_eye_hide"
+                                                              x:Name="ShowPasswordActualTrigger"/>
+                            </EventTrigger>
+                        </ImageButton.Triggers>
+                    </ImageButton>
+                </Grid>
+
+                <Grid ColumnSpacing="20" RowSpacing="15" Margin="10,0,10,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+
+                    <!--<Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" Text="Sign In" BackgroundColor="AntiqueWhite"/>-->
+                    <Button 
+                    Grid.Row="0" 
+                    Grid.Column="0" 
+                    Grid.ColumnSpan="1" 
+                    Text="Sign In" 
+                    BackgroundColor="#9290C3" 
+                    TextColor="#EFECEC"
+                    CharacterSpacing="4"     
+                    CornerRadius="15" 
+                    Clicked="ButtonUserSignIn_Clicked"/>
+
+                    <!--<Label Grid.Row="0" Grid.Column="1" Text="Sign Up" BackgroundColor="AntiqueWhite"/>-->
+                    <Button 
+                    Grid.Row="0" 
+                    Grid.Column="1" 
+                    Text="Sign Up" 
+                    BorderWidth="2"
+                    TextColor="#9290C3"
+                    BorderColor="#9290C3"
+                    BackgroundColor="#EFECEC" 
+                    CharacterSpacing="4" 
+                    CornerRadius="15" 
+                    Clicked="ButtonUserSignUp_Clicked"/>
+                    <Label 
+                    Grid.Row="1" 
+                    Grid.Column="0" 
+                    TextColor="#535C91" 
+                    Grid.ColumnSpan="2" 
+                    Text="Forgot Password?" 
+                    FontSize="17" 
+                    TextDecorations="Underline" 
+                    x:Name="LabelUserForgotPassword_Tap" 
+                    HorizontalOptions="CenterAndExpand"/>
+                    <!--- "ButtonUserForgotPassword_Clicked" -->
+
+
+                </Grid>
+
+
+               
+                <!--<Label Text="Welcome to Xamarin.Forms!"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />-->
+                <Label Text="e.g. Copyright © 2024 Study Wizard Inc. All rights reserved." 
+                   TextColor="Gray" 
+                   FontSize="Micro" 
+                   Margin="10,0,10,0" 
+                   VerticalOptions="EndAndExpand" 
+                   HorizontalOptions="CenterAndExpand"/>
 
-            <Label Text="e.g. Copyright © 2024 Study Wizard Inc. All rights reserved." TextColor="Gray" FontSize="Small" Margin="10,0,10,0" VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand"/>
-        </StackLayout>
+            </StackLayout>
+
+
+
+
+            <StackLayout x:Name="NoNetPage" IsVisible="false" VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand">
+                <Image Source="No_Connection" HeightRequest="200"/>
+                <Label Text="No Network Available Please Try Again"/>
+            </StackLayout>
+        </Grid>
+       
 
     </ContentPage.Content>
 </ContentPage>
