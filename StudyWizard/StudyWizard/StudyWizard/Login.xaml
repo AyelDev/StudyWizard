@@ -6,7 +6,7 @@
              BackgroundColor="#EFECEC">
     <ContentPage.Content>
 
-        
+
         <Grid>
             <StackLayout x:Name="LoginPage" IsVisible="true" Margin="0,60,0,0">
                 <!--Login Page-->
@@ -46,6 +46,7 @@
                     Placeholder="sample@email.com" 
                     PlaceholderColor="LightGray" 
                     x:Name="UserEmail"
+                    Keyboard="Email"
                     />
 
                     <Label Grid.Row="2" 
@@ -65,8 +66,8 @@
                     IsPassword="{Binding Source={x:Reference ShowPasswordActualTrigger}, Path=HidePassword}"
                     Placeholder="sample123" 
                     PlaceholderColor="LightGray" 
-                    
-                    x:Name="UserPassword"/>
+                    x:Name="UserPassword"
+                   />
 
 
                     <!--Show/HIde Password-->
@@ -130,7 +131,7 @@
                 </Grid>
 
 
-               
+
                 <!--<Label Text="Welcome to Xamarin.Forms!"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />-->
@@ -152,7 +153,7 @@
                 <Label Text="No Network Available Please Try Again"/>
             </StackLayout>
         </Grid>
-       
+
 
     </ContentPage.Content>
 </ContentPage>

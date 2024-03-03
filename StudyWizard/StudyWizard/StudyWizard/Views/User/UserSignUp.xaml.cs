@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Acr.UserDialogs;
+using System.Text.RegularExpressions;
+
 namespace StudyWizard.Views.User
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -46,12 +48,23 @@ namespace StudyWizard.Views.User
                 string Pass = string.Concat(rawPass.Where(c => !char.IsWhiteSpace(c)));
                 string CnfrmPass = string.Concat(rawCnfrmPass.Where(c => !char.IsWhiteSpace(c)));
 
+                //Restrict numbers and symbols
+                string namePattern = @"^[a-zA-Z]+$";
+                string passwordPattern = @"^[0-9A-Za-z]+$";
                 int MaxName = Name.Length;
-
+                
                 if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Pass) || string.IsNullOrEmpty(CnfrmPass))
                 {
                     await DisplayAlert("Form Incomplete", "Please Enter Correctly.", "ok");
 
+                }
+                else if(!Regex.IsMatch(Name, namePattern))
+                {
+                    await DisplayAlert("Name Error", "Name Should Not Enter Any Symbols Or Numbers", "ok");
+                }
+                else if(Regex.IsMatch(Pass, passwordPattern) && Regex.IsMatch(CnfrmPass, passwordPattern))
+                {
+                    await DisplayAlert("Password Error", "Use Strong Password .. Tips: Use Symbols e.g @, &, *", "ok");
                 }
                 else if(!Email.Contains("gmail.com") && !Email.Contains("yahoo.com") && !Email.Contains("outlook.com"))
                 {

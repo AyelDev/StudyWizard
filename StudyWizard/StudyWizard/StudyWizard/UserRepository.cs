@@ -15,6 +15,7 @@ namespace StudyWizard
         public UserRepository()
         {
             authProvider = new FirebaseAuthProvider(new FirebaseConfig(webAPIKey));
+
         }
 
         public async Task<string> SignIn(string email, string password)
@@ -27,7 +28,6 @@ namespace StudyWizard
                     return token.FirebaseToken;
                 }
                 return token.ToString();
-         
         }
 
         public async Task<bool> PasswordReset(string email)
@@ -50,10 +50,12 @@ namespace StudyWizard
                 return true;
             }
 
+            
 
         }
 
 
+        //Logout Method Unfinished
 
 
 

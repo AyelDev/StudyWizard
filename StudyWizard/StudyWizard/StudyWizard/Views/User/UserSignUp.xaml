@@ -21,7 +21,10 @@
                     Grid.Row="1" 
                     Placeholder="Name" 
                     PlaceholderColor="LightGray" 
-                    TextColor="#535C91"/>
+                    TextColor="#535C91"
+                    Keyboard="Text"
+                    MaxLength="15"
+                    />
                 
                 <Entry 
                        x:Name="lblEmail" 
@@ -29,7 +32,8 @@
                        Grid.Row="2" 
                        Placeholder="Email" 
                        PlaceholderColor="LightGray" 
-                       TextColor="#535C91"/>
+                       TextColor="#535C91"
+                        Keyboard="Email"/>
                 
                 <Entry 
                     x:Name="lblPass" 

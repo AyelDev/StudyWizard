@@ -24,18 +24,16 @@ namespace StudyWizard
       
             InitializeComponent();
             LblForgotPassword();
-           
+            //Check if user save login credentials
+            Task.Run(async () => await CheckCredentials());
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
             Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
-
-
             //current state of connectivity
             var current = Connectivity.NetworkAccess;
-
             if (current == NetworkAccess.Internet)
             {
                 NoNetPage.IsVisible = false;
@@ -47,7 +45,7 @@ namespace StudyWizard
                 NoNetPage.IsVisible = true;
                 LoginPage.IsVisible = false;
             }
-
+           
         }
 
         private async void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
@@ -142,7 +140,9 @@ namespace StudyWizard
                 }
                 else
                 {
-                    await _userRepository.SignIn(userEmail, userPass);
+                    var token = await _userRepository.SignIn(userEmail, userPass);
+                    Preferences.Set("token", token);
+                    Preferences.Set("userEmail", userEmail);
                     var userDashboard = new Views.User.UserDashboard();
                     await Navigation.PushAsync(userDashboard);
                     Debug.WriteLine("Signing in user dashboard...");
@@ -201,6 +201,42 @@ namespace StudyWizard
             UserDialogs.Instance.HideLoading();
 
         }
-        
+
+        public async Task CheckCredentials()
+        {
+          
+            bool hasKey = Preferences.ContainsKey("token");
+            if (hasKey)
+            {
+                string token = Preferences.Get("token", "");
+                if (!string.IsNullOrEmpty(token))
+                {
+
+                   
+                   await Navigation.PushAsync(new Views.User.UserDashboard());
+
+                }
+                else
+                {
+                   await Navigation.PopToRootAsync();
+                  
+                }
+
+            }
+            
+
+        }
+
+
+        protected override bool OnBackButtonPressed()
+        {
+
+            DisplayAlert("exit??", "yes", "ok");
+            // Implement your custom logic for handling the back button press
+            // For example, check if there's an ongoing operation that shouldn't be interrupted
+
+            // Return true to prevent the user from navigating back
+            return true;
+        }
     }
 }

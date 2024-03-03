@@ -1,12 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="StudyWizard.Views.User.UserDashboard">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="UserDashboard"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
-</ContentPage>
+             x:Class="StudyWizard.Views.User.UserDashboard" NavigationPage.HasNavigationBar="False"
+            xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" BackgroundColor="#9290C3"
+            android:TabbedPage.ToolbarPlacement="Bottom"
+            android:TabbedPage.BarItemColor="#535C91"
+            android:TabbedPage.BarSelectedItemColor="White"
+            >
+  <!--Pages can be added as references or inline-->
+    <ContentPage Title="Quizes" BackgroundColor="#EFECEC" IconImageSource="quizes"/>
+    <ContentPage Title="Explore" BackgroundColor="#EFECEC" IconImageSource="explore"/>
+    <ContentPage Title="Chat Wizard" BackgroundColor="#EFECEC" IconImageSource="wizard_chat"/>
+    <ContentPage Title="Profile"  BackgroundColor="#EFECEC" IconImageSource="profile_user">
+            <Grid>
+                <ScrollView>
+                    <Button Text="logout" VerticalOptions="EndAndExpand" Clicked="ButtonLogoutUser_Clicked"/>
+                </ScrollView>
+            </Grid>
+        </ContentPage>
+  
+ 
+</TabbedPage>
