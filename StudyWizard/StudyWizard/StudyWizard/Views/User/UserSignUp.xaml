@@ -40,9 +40,25 @@
                     Grid.Column="0" 
                     Grid.Row="3" 
                     Placeholder="Password" 
-                    IsPassword="True" 
+                    IsPassword="{Binding Source={x:Reference ShowPasswordActualTrigger2}, Path=HidePassword}" 
                     PlaceholderColor="LightGray" 
                     TextColor="#535C91"/>
+
+                <!--Show/Hide Password-->
+                <ImageButton VerticalOptions="Center" Grid.Row="3" Grid.Column="0"
+                HeightRequest="26"
+                HorizontalOptions="End"
+                Source="ic_eye_hide">
+                    <ImageButton.Triggers>
+                        <EventTrigger Event="Clicked">
+                            <!--Partial-->
+                            <local:MyCustomTriggerAction ShowIcon="ic_eye"
+                                                              HideIcon="ic_eye_hide"
+                                                              x:Name="ShowPasswordActualTrigger2"/>
+                        </EventTrigger>
+                    </ImageButton.Triggers>
+                    
+                </ImageButton>
                 
                 <Entry 
                     x:Name="lblConfrmPass" 
@@ -53,7 +69,7 @@
                     PlaceholderColor="LightGray" 
                     TextColor="#535C91"/>
 
-                <!--Show/HIde Password-->
+                <!--Show/HIde Confirm Password-->
                 <ImageButton VerticalOptions="Center" Grid.Row="4" Grid.Column="0"
                HeightRequest="26"
                HorizontalOptions="End"

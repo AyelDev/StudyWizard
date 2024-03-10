@@ -3,11 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:StudyWizard"
              x:Class="StudyWizard.Login"
              NavigationPage.HasNavigationBar="False"
-             BackgroundColor="#EFECEC">
+             BackgroundColor="#9290C3">
+    
     <ContentPage.Content>
 
 
         <Grid>
+
+
+            <Frame
+       Margin="-0,-40,0,40"
+       CornerRadius="60"
+       HasShadow="True"
+       HeightRequest="120"
+       WidthRequest="120"
+       BackgroundColor="#EFECEC">
+            </Frame>
+
             <StackLayout x:Name="LoginPage" IsVisible="true" Margin="0,60,0,0">
                 <!--Login Page-->
                 <!--- EFECEC for white-->
@@ -136,7 +148,7 @@
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />-->
                 <Label Text="e.g. Copyright © 2024 Study Wizard Inc. All rights reserved." 
-                   TextColor="Gray" 
+                   TextColor="Black" 
                    FontSize="Micro" 
                    Margin="10,0,10,0" 
                    VerticalOptions="EndAndExpand" 
